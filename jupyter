@@ -1,0 +1,28 @@
+from pyxelate import Pyxelate
+from skimage import io
+import matplotlib.pyplot as plt
+
+img = io.imread("/path/to/file/file.png")
+# generate pixel art that is 1/14 the size
+height, width, _ = img.shape 
+factor = 2
+colors =12
+dither = True
+
+p = Pyxelate(height // factor, width // factor, colors, dither)
+img_small = p.convert(img)  # convert an image with these settings
+
+_, axes = plt.subplots(1, 2, figsize=(16, 16))
+axes[0].imshow(img)
+c = axes[1].imshow(img_small)
+
+import matplotlib.image as mpimg
+import time;
+ts =  str(time.time())
+a = '/path/to/file/'
+c = '.png'
+fin = a + ts + c
+print(fin)
+
+mpimg.imsave(fin, img_small)
+#print(img_small, '/path/to/file/file.png','png');
