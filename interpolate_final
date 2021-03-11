@@ -1,0 +1,40 @@
+from pyxelate import Pyxelate
+from skimage import io
+import matplotlib.pyplot as plt
+
+img = io.imread("")   #path to file with ext
+# generate pixel art that is 1/14 the size
+height, width, _ = img.shape 
+factor = 4
+colors = 7
+dither = False
+
+p = Pyxelate(height // factor, width // factor, colors, dither)
+img_small = p.convert(img)  # convert an image with these settings
+
+_, axes = plt.subplots(1, 2, figsize=(16, 16))
+axes[0].imshow(img)
+c = axes[1].imshow(img_small)
+
+import matplotlib.image as mpimg
+#img = plt.show()
+#axes[1].imshow(img_small)
+import time;
+ts =  str(time.time())
+a = '/home/gordinius/Documents/'
+c = '.png'
+fin = a + ts + c
+print(fin)
+
+mpimg.imsave(fin, img_small)
+#print(img_small, '','png');  #path to file with ext
+import PIL
+from PIL import Image
+with Image.open(fin) as im:
+
+    # Provide the target width and height of the image
+    (width, height) = (im.width * 2, im.height * 2)
+    im_resized = im.resize((width, height),resample=PIL.Image.BOX)
+    b = '_resized'
+    fin = a + ts + b + c
+    im_resized.save(fin)
